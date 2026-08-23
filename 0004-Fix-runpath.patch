@@ -1,0 +1,25 @@
+From ed14e88533489143537f7c39499052ac59888486 Mon Sep 17 00:00:00 2001
+From: !!!UNSET!!! Dev Container <devcontainer@example.org>
+Date: Sun, 23 Aug 2026 22:06:37 +0000
+Subject: [PATCH 4/6] Fix runpath
+
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index a0f0d7334..6cac01774 100644
+--- a/Makefile
++++ b/Makefile
+@@ -143,7 +143,7 @@ else
+ 		endif
+ 		CC = gcc
+ 		AR = ar
+-		LDFLAGS = -lm -lrt -lusb-1.0 -pthread -L$(BUILD_LIB) -Wl,-rpath=\\\$$\$$ORIGIN/../lib,-rpath=\\\$$\$$ORIGIN/../drivers,-rpath=.
++		LDFLAGS = -lm -lrt -lusb-1.0 -pthread -L$(BUILD_LIB) -Wl,-rpath=\\\$$\$$ORIGIN/../lib,-rpath=\\\$$\$$ORIGIN/../drivers
+ 		ifeq ($(ARCH_DETECTED),arm)
+ 			CFLAGS = $(DEBUG_BUILD) -fPIC -O3 -march=armv6 -mfpu=vfp -mfloat-abi=hard -marm -mthumb-interwork -I$(INDIGO_ROOT)/indigo_libs -I$(INDIGO_ROOT)/indigo_drivers -I$(INDIGO_ROOT)/indigo_linux_drivers -I$(BUILD_INCLUDE) -std=gnu11 -pthread -DINDIGO_LINUX $(DRPI_MANAGEMENT) -D_FILE_OFFSET_BITS=64
+ 			CXXFLAGS = $(DEBUG_BUILD) -fPIC -O3 -march=armv6 -mfpu=vfp -mfloat-abi=hard -marm -mthumb-interwork -I$(INDIGO_ROOT)/indigo_libs -I$(INDIGO_ROOT)/indigo_drivers -I$(INDIGO_ROOT)/indigo_linux_drivers -I$(BUILD_INCLUDE) -std=gnu++11 -pthread -DINDIGO_LINUX
+-- 
+2.55.0
+

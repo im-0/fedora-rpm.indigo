@@ -1,0 +1,31 @@
+From ea6e915ba0fe387c884004db69b23b8ea54fddfd Mon Sep 17 00:00:00 2001
+From: !!!UNSET!!! Dev Container <devcontainer@example.org>
+Date: Sun, 23 Aug 2026 21:46:26 +0000
+Subject: [PATCH 3/6] Install fxload into $(INSTALL_ROOT)
+
+---
+ Makefile | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 8dc9bc204..a0f0d7334 100644
+--- a/Makefile
++++ b/Makefile
+@@ -216,10 +216,10 @@ endif
+ 	@$(MAKE)	-C indigo_server install
+ ifeq ($(OS_DETECTED),Linux)
+ 	@$(MAKE)	    -C tools/fxload -f Makefile
+-	@install -d /sbin
+-	@install -d /usr/sbin
+-	@install -m 0755 tools/fxload/fxload /sbin
+-	@install -m 0755 tools/fxload/fxload /usr/sbin
++	@install -d $(INSTALL_ROOT)/sbin
++	@install -d $(INSTALL_ROOT)/usr/sbin
++	@install -m 0755 tools/fxload/fxload $(INSTALL_ROOT)/sbin
++	@install -m 0755 tools/fxload/fxload $(INSTALL_ROOT)/usr/sbin
+ endif
+ 
+ indigo-environment-install:
+-- 
+2.55.0
+

@@ -1,0 +1,34 @@
+From 32ade6406a531d693cab3a9b7469ebd4bf3d0217 Mon Sep 17 00:00:00 2001
+From: !!!UNSET!!! Dev Container <devcontainer@example.org>
+Date: Sun, 23 Aug 2026 20:50:15 +0000
+Subject: [PATCH 1/6] Do not call udevadm on `make install`
+
+---
+ Makefile | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index f963cabbc..9c2f62cb2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -215,7 +215,6 @@ ifeq ($(OS_DETECTED),Linux)
+ endif
+ 	@sudo $(MAKE)	-C indigo_server install
+ ifeq ($(OS_DETECTED),Linux)
+-	sudo udevadm control --reload-rules
+ 	@$(MAKE)	    -C tools/fxload -f Makefile
+ 	@sudo install -d /sbin
+ 	@sudo install -d /usr/sbin
+@@ -240,9 +239,6 @@ ifeq ($(OS_DETECTED),Linux)
+ 	@sudo $(MAKE)	-C indigo_linux_drivers -f ../Makefile.drvs uninstall
+ endif
+ 	@sudo $(MAKE)	-C indigo_server uninstall
+-ifeq ($(OS_DETECTED),Linux)
+-	sudo udevadm control --reload-rules
+-endif
+ 
+ ifeq ($(OS_DETECTED),Linux)
+ package: INSTALL_ROOT = $(INDIGO_ROOT)/$(INDIGO_PACKAGE)-$(INDIGO_VERSION)-$(INDIGO_PACKAGE_BUILD)-$(DEBIAN_ARCH)
+-- 
+2.55.0
+

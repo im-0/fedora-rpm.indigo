@@ -1,0 +1,72 @@
+From fa7be4e34c6efcaf8b36195add75f0594458077c Mon Sep 17 00:00:00 2001
+From: !!!UNSET!!! Dev Container <devcontainer@example.org>
+Date: Sun, 23 Aug 2026 20:53:14 +0000
+Subject: [PATCH 2/6] Do not call sudo on `make install`
+
+---
+ Makefile | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 9c2f62cb2..8dc9bc204 100644
+--- a/Makefile
++++ b/Makefile
+@@ -204,22 +204,22 @@ reconfigure:
+ 	install -d -m 0755 $(INSTALL_FIRMWARE)
+ 
+ install: reconfigure init all
+-	@sudo $(MAKE)	-C indigo_libs install
+-	@sudo $(MAKE)	-C indigo_tools install
+-	@sudo $(MAKE)	-C indigo_drivers -f ../Makefile.drvs install
++	@$(MAKE)	-C indigo_libs install
++	@$(MAKE)	-C indigo_tools install
++	@$(MAKE)	-C indigo_drivers -f ../Makefile.drvs install
+ ifeq ($(OS_DETECTED),Darwin)
+-	@sudo $(MAKE)	-C indigo_mac_drivers -f ../Makefile.drvs install
++	@$(MAKE)	-C indigo_mac_drivers -f ../Makefile.drvs install
+ endif
+ ifeq ($(OS_DETECTED),Linux)
+-	@sudo $(MAKE)	-C indigo_linux_drivers -f ../Makefile.drvs install
++	@$(MAKE)	-C indigo_linux_drivers -f ../Makefile.drvs install
+ endif
+-	@sudo $(MAKE)	-C indigo_server install
++	@$(MAKE)	-C indigo_server install
+ ifeq ($(OS_DETECTED),Linux)
+ 	@$(MAKE)	    -C tools/fxload -f Makefile
+-	@sudo install -d /sbin
+-	@sudo install -d /usr/sbin
+-	@sudo install -m 0755 tools/fxload/fxload /sbin
+-	@sudo install -m 0755 tools/fxload/fxload /usr/sbin
++	@install -d /sbin
++	@install -d /usr/sbin
++	@install -m 0755 tools/fxload/fxload /sbin
++	@install -m 0755 tools/fxload/fxload /usr/sbin
+ endif
+ 
+ indigo-environment-install:
+@@ -229,16 +229,16 @@ indigo-environment-install:
+ 	systemctl start indigo-environment
+ 
+ uninstall: reconfigure init
+-	@sudo $(MAKE)	-C indigo_libs uninstall
+-	@sudo $(MAKE)	-C indigo_tools uninstall
+-	@sudo $(MAKE)	-C indigo_drivers -f ../Makefile.drvs uninstall
++	@$(MAKE)	-C indigo_libs uninstall
++	@$(MAKE)	-C indigo_tools uninstall
++	@$(MAKE)	-C indigo_drivers -f ../Makefile.drvs uninstall
+ ifeq ($(OS_DETECTED),Darwin)
+-	@sudo $(MAKE)	-C indigo_mac_drivers -f ../Makefile.drvs uninstall
++	@$(MAKE)	-C indigo_mac_drivers -f ../Makefile.drvs uninstall
+ endif
+ ifeq ($(OS_DETECTED),Linux)
+-	@sudo $(MAKE)	-C indigo_linux_drivers -f ../Makefile.drvs uninstall
++	@$(MAKE)	-C indigo_linux_drivers -f ../Makefile.drvs uninstall
+ endif
+-	@sudo $(MAKE)	-C indigo_server uninstall
++	@$(MAKE)	-C indigo_server uninstall
+ 
+ ifeq ($(OS_DETECTED),Linux)
+ package: INSTALL_ROOT = $(INDIGO_ROOT)/$(INDIGO_PACKAGE)-$(INDIGO_VERSION)-$(INDIGO_PACKAGE_BUILD)-$(DEBIAN_ARCH)
+-- 
+2.55.0
+

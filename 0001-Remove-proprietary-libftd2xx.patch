@@ -1,0 +1,25 @@
+From d233aade1ae41544b5b3cc6916acdc8396e960f6 Mon Sep 17 00:00:00 2001
+From: !!!UNSET!!! Dev Container <devcontainer@example.org>
+Date: Mon, 24 Aug 2026 00:39:59 +0000
+Subject: [PATCH] Remove proprietary libftd2xx
+
+---
+ indigo_libs/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/indigo_libs/Makefile b/indigo_libs/Makefile
+index 464a02e0e..fa82ce55b 100644
+--- a/indigo_libs/Makefile
++++ b/indigo_libs/Makefile
+@@ -97,7 +97,7 @@ indigo_build_c:
+ #
+ #---------------------------------------------------------------------
+ 
+-libindigo: indigo_build_c libftd2xx libindigocat $(BUILD_LIB)/libindigo.a $(BUILD_LIB)/libindigo.$(SOEXT) libindigo_client
++libindigo: indigo_build_c libindigocat $(BUILD_LIB)/libindigo.a $(BUILD_LIB)/libindigo.$(SOEXT) libindigo_client
+ 
+ $(BUILD_LIB)/libindigo.a: $(LIBINDIGO_FILES)
+ 	$(AR) $(ARFLAGS) $@ $^
+-- 
+2.55.0
+
