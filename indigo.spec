@@ -65,8 +65,9 @@ needs.
 Summary: INDIGO astronomy server without proprietary drivers
 
 Requires: (%{name}-server-drivers-list-free = %{version}-%{release} or %{name}-server-drivers-list-nonfree = %{version}-%{release})
-%ifarch aarch64
 Requires: perl-interpreter
+Requires: perl-Getopt-Std
+%ifarch aarch64
 Requires: perl-Getopt-Long
 %endif
 
@@ -184,6 +185,12 @@ mkdir %{buildroot}%{_sharedstatedir}/%{name}
 cp %{SOURCE2} %{buildroot}/%{_unitdir}/%{name}-server.service
 cp %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}-server
 
+# Install more tools
+install -m 0755 build/bin/indigo_drivers %{buildroot}%{_bindir}
+install -m 0755 build/bin/indigo_driver_metadata %{buildroot}%{_bindir}
+install -m 0755 build/bin/indigo_generator %{buildroot}%{_bindir}
+install -m 0755 build/bin/indigo_scan_drivers %{buildroot}%{_bindir}
+
 
 %files server-free
 %{_bindir}/indigo_ao_sx
@@ -257,8 +264,6 @@ cp %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}-server
 %{_bindir}/indigo_gps_nmea
 %{_bindir}/indigo_gps_simulator
 %{_bindir}/indigo_guider_cgusbst4
-%{_bindir}/indigo_list_usbserial
-%{_bindir}/indigo_log_analyzer
 %{_bindir}/indigo_mount_asi
 %{_bindir}/indigo_mount_ioptron
 %{_bindir}/indigo_mount_lx200
@@ -270,9 +275,6 @@ cp %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}-server
 %{_bindir}/indigo_mount_starbook
 %{_bindir}/indigo_mount_synscan
 %{_bindir}/indigo_mount_temma
-%{_bindir}/indigo_prop_tool
-%{_bindir}/indigo_raw_crop
-%{_bindir}/indigo_raw_to_fits
 %{_bindir}/indigo_rotator_falcon
 %{_bindir}/indigo_rotator_lunatico
 %{_bindir}/indigo_rotator_optec
@@ -289,6 +291,16 @@ cp %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}-server
 %{_bindir}/indigo_wheel_sx
 %{_bindir}/indigo_wheel_trutek
 %{_bindir}/indigo_wheel_xagyl
+
+%{_bindir}/indigo_prop_tool
+%{_bindir}/indigo_raw_crop
+%{_bindir}/indigo_raw_to_fits
+%{_bindir}/indigo_list_usbserial
+%{_bindir}/indigo_log_analyzer
+%{_bindir}/indigo_drivers
+%{_bindir}/indigo_driver_metadata
+%{_bindir}/indigo_generator
+%{_bindir}/indigo_scan_drivers
 
 %{_libdir}/indigo_agent_alpaca.so
 %{_libdir}/indigo_agent_astap.so
