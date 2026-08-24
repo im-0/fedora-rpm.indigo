@@ -182,7 +182,7 @@ install -m 0755 tools/wifi_channel_selector.pl %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 mkdir -p %{buildroot}%{_usr}/lib/firewalld/services
-mkdir %{buildroot}%{_sharedstatedir}/%{name}
+mkdir -p %{buildroot}%{_sharedstatedir}/%{name}
 
 cp %{SOURCE2} %{buildroot}/%{_unitdir}/%{name}-server.service
 cp %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}-server
