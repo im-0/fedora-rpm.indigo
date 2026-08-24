@@ -729,17 +729,17 @@ exit 0
 
 
 %post server-free
-%systemd_post %{name}.service
+%systemd_post %{name}-server.service
 udevadm control --reload-rules || true
 firewall-cmd --reload || true
 
 
 %preun server-free
-%systemd_preun '%{name}.service'
+%systemd_preun '%{name}-server.service'
 
 
 %postun server-free
-%systemd_postun_with_restart '%{name}.service'
+%systemd_postun_with_restart '%{name}-server.service'
 udevadm control --reload-rules || true
 firewall-cmd --reload || true
 
