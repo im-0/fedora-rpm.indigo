@@ -665,7 +665,8 @@ install -m 0755 tools/wifi_channel_selector.pl %{buildroot}%{_bindir}
 /lib/udev/rules.d/99-indigo_wheel_astroasis.rules
 /lib/udev/rules.d/99-indigo_wheel_playerone.rules
 
-%dir %config(noreplace) %{_sysconfdir}/apogee
+%dir %{_sysconfdir}/apogee
+%config(noreplace) %{_sysconfdir}/apogee/*.txt
 
 
 %files drivers-list-nonfree
