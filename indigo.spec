@@ -72,6 +72,9 @@ Requires: perl-Getopt-Std
 Requires: perl-Getopt-Long
 %endif
 
+Provides: user(indigo)
+Provides: group(indigo)
+
 %description server-free
 INDIGO is a system of standards and frameworks for multiplatform and
 distributed astronomy software development designed to scale with your
