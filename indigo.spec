@@ -7,7 +7,7 @@
 
 Name:       indigo
 Version:    3.0.4
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    INDIGO astronomy software platform
 
 License:    LicenseRef-INDIGO-Astronomy-open-source-license
@@ -66,6 +66,7 @@ needs.
 Summary: INDIGO astronomy server without proprietary drivers
 
 Requires: (%{name}-server-drivers-list-free = %{version}-%{release} or %{name}-server-drivers-list-nonfree = %{version}-%{release})
+Requires: astrometry
 Requires: perl-interpreter
 Requires: perl-Getopt-Std
 %ifarch aarch64
