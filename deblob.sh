@@ -71,6 +71,18 @@ find "${path}" \
             -iname "*.dll" \
             -or \
             -iname "*.lib" \
+            -or \
+            -iname "*.tgz" \
+            -or \
+            -iname "*.tbz" \
+            -or \
+            -iname "*.tbz2" \
+            -or \
+            -iname "*.tar.*" \
+            -or \
+            -iname "*.tar" \
+            -or \
+            -iname "*.zip" \
         ")" \
         -print \
         -quit \
