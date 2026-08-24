@@ -20,6 +20,7 @@ Source1:    https://github.com/indigo-astronomy/indigo/archive/refs/tags/%{tarba
 %endif
 Source2:    indigo-server.service
 Source3:    indigo-server.env
+Source4:    indigo-server.xml
 
 Patch1001:     0001-Do-not-call-udevadm-on-make-install.patch
 Patch1002:     0002-Do-not-call-sudo-on-make-install.patch
@@ -180,10 +181,12 @@ install -m 0755 tools/wifi_channel_selector.pl %{buildroot}%{_bindir}
 
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
+mkdir -p %{buildroot}%{_usr}/lib/firewalld/services
 mkdir %{buildroot}%{_sharedstatedir}/%{name}
 
 cp %{SOURCE2} %{buildroot}/%{_unitdir}/%{name}-server.service
 cp %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}-server
+cp %{SOURCE4} %{buildroot}%{_usr}/lib/firewalld/services/
 
 # Install more tools
 install -m 0755 build/bin/indigo_drivers %{buildroot}%{_bindir}
@@ -450,6 +453,7 @@ install -m 0755 build/bin/indigo_scan_drivers %{buildroot}%{_bindir}
 %attr(0750,%{name},%{name}) %dir %{_sharedstatedir}/%{name}
 %{_unitdir}/%{name}-server.service
 %attr(0640,root,%{name}) %config(noreplace) %{_sysconfdir}/sysconfig/%{name}-server
+%{_usr}/lib/firewalld/services/%{name}-server.xml
 
 
 %if %{free}
@@ -723,6 +727,7 @@ exit 0
 
 %post server-free
 %systemd_post %{name}.service
+firewall-cmd --reload || true
 
 
 %preun server-free
