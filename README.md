@@ -10,7 +10,7 @@ vendor SDK libraries in a form of pre-compiled `*.a` and `*.so` files.
 
 I build both for myself. "Free" variant together with Ain INDIGO Imager
 suite and INDIGO Control Panel is available in my Copr:
-https://copr.fedorainfracloud.org/coprs/ivanmironov/base-patched/
+https://copr.fedorainfracloud.org/coprs/ivanmironov/base-patched/package/indigo/
 
 If you need non-free drivers: build yourself using following instructions.
 
@@ -60,3 +60,8 @@ sudo dnf install /var/lib/mock/*/result/indigo-server-free-[0-9]*.rpm /var/lib/m
 # Free
 sudo dnf install /var/lib/mock/*/result/indigo-server-free-[0-9]*.rpm /var/lib/mock/*/result/indigo-server-drivers-list-free-[0-9]*.rpm /var/lib/mock/*/result/indigo-client-libs-free-[0-9]*.rpm
 ```
+
+## See also
+
+* https://github.com/im-0/fedora-rpm.indigo-control-panel
+* https://github.com/im-0/fedora-rpm.indigo-imager
