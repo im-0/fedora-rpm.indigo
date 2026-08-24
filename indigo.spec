@@ -18,6 +18,8 @@ Source1:    %{name}-free-%{tarball_version}.tar.xz
 %else
 Source1:    https://github.com/indigo-astronomy/indigo/archive/refs/tags/%{tarball_version}/%{name}-%{tarball_version}.tar.gz
 %endif
+Source2:    indigo-server.service
+Source3:    indigo-server.env
 
 Patch1001:     0001-Do-not-call-udevadm-on-make-install.patch
 Patch1002:     0002-Do-not-call-sudo-on-make-install.patch
@@ -59,49 +61,49 @@ distributed astronomy software development designed to scale with your
 needs.
 
 
-%package free
-Summary: INDIGO astronomy software platform without proprietary drivers
+%package server-free
+Summary: INDIGO astronomy server without proprietary drivers
 
-Requires: (%{name}-drivers-list-free = %{version}-%{release} or %{name}-drivers-list-nonfree = %{version}-%{release})
+Requires: (%{name}-server-drivers-list-free = %{version}-%{release} or %{name}-server-drivers-list-nonfree = %{version}-%{release})
 %ifarch aarch64
 Requires: perl-interpreter
 Requires: perl-Getopt-Long
 %endif
 
-%description free
+%description server-free
 INDIGO is a system of standards and frameworks for multiplatform and
 distributed astronomy software development designed to scale with your
 needs. "Free" version without proprietary drivers.
 
 
 %if %{free}
-%package drivers-list-free
+%package server-drivers-list-free
 Summary: List of supported drivers for INDIGO astronomy software platform
 
-Conflicts: %{name}-drivers-list-nonfree
+Conflicts: %{name}-server-drivers-list-nonfree
 
 
-%description drivers-list-free
+%description server-drivers-list-free
 List of supported drivers for INDIGO astronomy software platform.
 %else
-%package drivers-nonfree
+%package server-drivers-nonfree
 Summary: Non-free drivers for INDIGO astronomy software platform
 
-Requires: %{name}-free = %{version}-%{release}
-Requires: %{name}-drivers-list-nonfree = %{version}-%{release}
+Requires: %{name}-server-free = %{version}-%{release}
+Requires: %{name}-server-drivers-list-nonfree = %{version}-%{release}
 
 
-%description drivers-nonfree
+%description server-drivers-nonfree
 Non-free drivers for INDIGO astronomy software platform.
 
 
-%package drivers-list-nonfree
+%package server-drivers-list-nonfree
 Summary: List of supported drivers for INDIGO astronomy software platform
 
-Conflicts: %{name}-drivers-list-free
+Conflicts: %{name}-server-drivers-list-free
 
 
-%description drivers-list-nonfree
+%description server-drivers-list-nonfree
 List of supported drivers for INDIGO astronomy software platform.
 %endif
 
@@ -175,8 +177,15 @@ install -m 0755 tools/rpi_ctrl_v2.sh %{buildroot}%{_bindir}
 install -m 0755 tools/wifi_channel_selector.pl %{buildroot}%{_bindir}
 %endif
 
+mkdir -p %{buildroot}%{_unitdir}
+mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
+mkdir %{buildroot}%{_sharedstatedir}/%{name}
 
-%files free
+cp %{SOURCE2} %{buildroot}/%{_unitdir}/%{name}-server.service
+cp %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}-server
+
+
+%files server-free
 %{_bindir}/indigo_ao_sx
 %{_bindir}/indigo_aux_arteskyflat
 %{_bindir}/indigo_aux_asiair
@@ -426,13 +435,17 @@ install -m 0755 tools/wifi_channel_selector.pl %{buildroot}%{_bindir}
 %{_bindir}/wifi_channel_selector.pl
 %endif
 
+%attr(0750,%{name},%{name}) %dir %{_sharedstatedir}/%{name}
+%{_unitdir}/%{name}-server.service
+%attr(0640,root,%{name}) %config(noreplace) %{_sysconfdir}/sysconfig/%{name}-server
+
 
 %if %{free}
-%files drivers-list-free
+%files server-drivers-list-free
 %{_datadir}/indigo/indigo_drivers
 %{_datadir}/indigo/indigo_linux_drivers
 %else
-%files drivers-nonfree
+%files server-drivers-nonfree
 %{_bindir}/indigo_aux_dsusb
 %{_bindir}/indigo_ccd_altair
 %{_bindir}/indigo_ccd_apogee
@@ -669,13 +682,13 @@ install -m 0755 tools/wifi_channel_selector.pl %{buildroot}%{_bindir}
 %config(noreplace) %{_sysconfdir}/apogee/*.txt
 
 
-%files drivers-list-nonfree
+%files server-drivers-list-nonfree
 %{_datadir}/indigo/indigo_drivers
 %{_datadir}/indigo/indigo_linux_drivers
 %endif
 
 
-%files client-libs-free
+%files server-client-libs-free
 %{_libdir}/libindigo_client.so
 
 
@@ -685,6 +698,27 @@ install -m 0755 tools/wifi_channel_selector.pl %{buildroot}%{_bindir}
 %{_libdir}/libindigo.a
 %{_libdir}/libindigo_client.a
 %{_libdir}/libindigocat.a
+
+
+%pre server-free
+getent group %{name} >/dev/null || groupadd -r %{name}
+getent passwd %{name} >/dev/null || \
+        useradd -r -s /sbin/nologin -d %{_sharedstatedir}/%{name} -M \
+        -G dialout,video \
+        -c 'INDIGO astronomy software platform' -g %{name} %{name}
+exit 0
+
+
+%post server-free
+%systemd_post %{name}.service
+
+
+%preun server-free
+%systemd_preun '%{name}.service'
+
+
+%postun server-free
+%systemd_postun_with_restart '%{name}.service'
 
 
 %changelog

@@ -1,0 +1,22 @@
+[Unit]
+Description=INDIGO Server
+
+StartLimitIntervalSec=0
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+EnvironmentFile=/etc/sysconfig/indigo-server
+
+Type=simple
+User=indigo
+Group=indigo
+
+LimitNOFILE=1024000
+LogRateLimitIntervalSec=0
+
+ExecStart=/usr/bin/indigo_server --do-not-fork $SERVER_OPTS
+
+Restart=always
+RestartSec=1
