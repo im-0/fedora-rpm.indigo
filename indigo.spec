@@ -124,7 +124,7 @@ Client libraries for INDIGO astronomy software platform.
 %package free-devel
 Summary: Headers for INDIGO astronomy software platform
 
-Requires: %{name}-free = %{version}-%{release}
+Requires: %{name}-server-free = %{version}-%{release}
 Requires: %{name}-client-libs-free = %{version}-%{release}
 
 
