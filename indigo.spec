@@ -704,7 +704,7 @@ install -m 0755 build/bin/indigo_scan_drivers %{buildroot}%{_bindir}
 %endif
 
 
-%files server-client-libs-free
+%files client-libs-free
 %{_libdir}/libindigo_client.so
 
 
