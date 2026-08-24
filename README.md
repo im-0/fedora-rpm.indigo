@@ -55,8 +55,8 @@ ls -lah /var/lib/mock/*/result/*.rpm
 
 ```bash
 # Non-free
-sudo dnf install /var/lib/mock/*/result/indigo-free-[0-9]*.rpm /var/lib/mock/*/result/indigo-drivers-list-nonfree-[0-9]*.rpm /var/lib/mock/*/result/indigo-drivers-nonfree-[0-9]*.rpm /var/lib/mock/*/result/indigo-client-libs-free-[0-9]*.rpm
+sudo dnf install /var/lib/mock/*/result/indigo-server-free-[0-9]*.rpm /var/lib/mock/*/result/indigo-server-drivers-list-nonfree-[0-9]*.rpm /var/lib/mock/*/result/indigo-server-drivers-nonfree-[0-9]*.rpm /var/lib/mock/*/result/indigo-client-libs-free-[0-9]*.rpm
 
 # Free
-sudo dnf install /var/lib/mock/*/result/indigo-free-[0-9]*.rpm /var/lib/mock/*/result/indigo-drivers-list-free-[0-9]*.rpm /var/lib/mock/*/result/indigo-client-libs-free-[0-9]*.rpm
+sudo dnf install /var/lib/mock/*/result/indigo-server-free-[0-9]*.rpm /var/lib/mock/*/result/indigo-server-drivers-list-free-[0-9]*.rpm /var/lib/mock/*/result/indigo-client-libs-free-[0-9]*.rpm
 ```
