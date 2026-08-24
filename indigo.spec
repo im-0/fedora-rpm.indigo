@@ -701,6 +701,18 @@ install -m 0755 build/bin/indigo_scan_drivers %{buildroot}%{_bindir}
 %config(noreplace) %{_sysconfdir}/apogee/*.txt
 
 
+%post server-drivers-nonfree
+udevadm control --reload-rules || true
+
+
+%preun server-drivers-nonfree
+udevadm control --reload-rules || true
+
+
+%postun server-drivers-nonfree
+udevadm control --reload-rules || true
+
+
 %files server-drivers-list-nonfree
 %{_datadir}/indigo/indigo_drivers
 %{_datadir}/indigo/indigo_linux_drivers
@@ -736,6 +748,8 @@ firewall-cmd --reload || true
 
 %preun server-free
 %systemd_preun '%{name}-server.service'
+udevadm control --reload-rules || true
+firewall-cmd --reload || true
 
 
 %postun server-free
