@@ -727,6 +727,7 @@ exit 0
 
 %post server-free
 %systemd_post %{name}.service
+udevadm control --reload-rules || true
 firewall-cmd --reload || true
 
 
@@ -736,6 +737,8 @@ firewall-cmd --reload || true
 
 %postun server-free
 %systemd_postun_with_restart '%{name}.service'
+udevadm control --reload-rules || true
+firewall-cmd --reload || true
 
 
 %changelog
