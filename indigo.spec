@@ -7,7 +7,7 @@
 
 Name:       indigo
 Version:    3.0.4
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    INDIGO astronomy software platform
 
 License:    LicenseRef-INDIGO-Astronomy-open-source-license
@@ -30,6 +30,11 @@ Patch1005:     0005-Use-system-dc1394.patch
 Patch1006:     0006-Use-system-libusb-libhidapi-libjpeg-libtiff-and-libr.patch
 
 Patch2001:     0001-Remove-proprietary-libftd2xx.patch
+
+Patch3001:     0001-Fix-indigo_ccd_rpi.patch
+Patch3002:     0002-Do-not-install-indigo_ccd_rpi.a.patch
+Patch3003:     0003-Put-metadata-of-indigo_ccd_rpi-into-indigo_linux_dri.patch
+Patch3004:     0004-Fix-indigo_ccd_rpi-runpath.patch
 
 BuildRequires:  systemd-rpm-macros
 BuildRequires:  automake
@@ -54,6 +59,9 @@ BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  libtiff-devel
 BuildRequires:  LibRaw-devel
 BuildRequires:  hidapi-devel
+%ifarch aarch64
+BuildRequires:  libcamera-devel
+%endif
 
 
 %description
@@ -147,6 +155,11 @@ Headers for INDIGO astronomy software platform.
 %patch -P 2001 -p 1
 %endif
 
+%patch -P 3001 -p 1
+%patch -P 3002 -p 1
+%patch -P 3003 -p 1
+%patch -P 3004 -p 1
+
 
 %build
 make \
@@ -160,6 +173,19 @@ make \
         INSTALL_FIRMWARE="%{buildroot}/lib/firmware" \
         all
 
+%ifarch aarch64
+cd indigo_optional_drivers/ccd_rpi
+make \
+        INSTALL_ROOT="%{buildroot}" \
+        INSTALL_BIN="%{buildroot}%{_bindir}" \
+        INSTALL_LIB="%{buildroot}%{_libdir}" \
+        INSTALL_INCLUDE="%{buildroot}%{_includedir}" \
+        INSTALL_ETC="%{buildroot}%{_sysconfdir}" \
+        INSTALL_SHARE="%{buildroot}%{_datadir}" \
+        INSTALL_RULES="%{buildroot}/lib/udev/rules.d" \
+        INSTALL_FIRMWARE="%{buildroot}/lib/firmware"
+%endif
+
 
 %install
 make \
@@ -172,6 +198,22 @@ make \
         INSTALL_RULES="%{buildroot}/lib/udev/rules.d" \
         INSTALL_FIRMWARE="%{buildroot}/lib/firmware" \
         install
+
+%ifarch aarch64
+cd indigo_optional_drivers/ccd_rpi
+make \
+        INSTALL_ROOT="%{buildroot}" \
+        INSTALL_BIN="%{buildroot}%{_bindir}" \
+        INSTALL_LIB="%{buildroot}%{_libdir}" \
+        INSTALL_INCLUDE="%{buildroot}%{_includedir}" \
+        INSTALL_ETC="%{buildroot}%{_sysconfdir}" \
+        INSTALL_SHARE="%{buildroot}%{_datadir}" \
+        INSTALL_RULES="%{buildroot}/lib/udev/rules.d" \
+        INSTALL_FIRMWARE="%{buildroot}/lib/firmware" \
+        install
+install -m 0640 indigo_ccd_rpi.rules %{buildroot}/lib/udev/rules.d/99-indigo_ccd_rpi.rules
+cd ../..
+%endif
 
 rm %{buildroot}/sbin/fxload
 rmdir %{buildroot}/sbin
@@ -298,6 +340,9 @@ install -m 0755 build/bin/indigo_scan_drivers %{buildroot}%{_bindir}
 %{_bindir}/indigo_wheel_sx
 %{_bindir}/indigo_wheel_trutek
 %{_bindir}/indigo_wheel_xagyl
+%ifarch aarch64
+%{_bindir}/indigo_ccd_rpi
+%endif
 
 %{_bindir}/indigo_prop_tool
 %{_bindir}/indigo_raw_crop
@@ -419,6 +464,9 @@ install -m 0755 build/bin/indigo_scan_drivers %{buildroot}%{_bindir}
 %{_libdir}/indigo_wheel_xagyl.so
 %{_libdir}/libindigo.so
 %{_libdir}/libindigocat.so
+%ifarch aarch64
+%{_libdir}/indigo_ccd_rpi.so
+%endif
 
 /usr/sbin/fxload
 
@@ -447,6 +495,9 @@ install -m 0755 build/bin/indigo_scan_drivers %{buildroot}%{_bindir}
 /lib/udev/rules.d/99-indigo_mount_lx200.rules
 /lib/udev/rules.d/99-indigo_rotator_falcon.rules
 /lib/udev/rules.d/99-indigo_wheel_sx.rules
+%ifarch aarch64
+/lib/udev/rules.d/99-indigo_ccd_rpi.rules
+%endif
 
 %ifarch aarch64
 %{_bindir}/rpi_ctrl.sh

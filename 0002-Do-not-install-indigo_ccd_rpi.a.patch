@@ -1,0 +1,24 @@
+From 23a08214bf89a3b6c79125fe0def81c485e46dd9 Mon Sep 17 00:00:00 2001
+From: Ivan Mironov <mironov.ivan@gmail.com>
+Date: Tue, 25 Aug 2026 04:36:44 +0200
+Subject: [PATCH 2/4] Do not install indigo_ccd_rpi.a
+
+---
+ indigo_optional_drivers/ccd_rpi/Makefile | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/indigo_optional_drivers/ccd_rpi/Makefile b/indigo_optional_drivers/ccd_rpi/Makefile
+index 87d59bb8c12e..d83b263e3d0e 100644
+--- a/indigo_optional_drivers/ccd_rpi/Makefile
++++ b/indigo_optional_drivers/ccd_rpi/Makefile
+@@ -57,7 +57,6 @@ $(BUILD_SHARE)/$(DRIVER_METADATA): $(DRIVER_SO)
+ 
+ install: all
+ 	install -m 0644 $(DRIVER_SO) $(INSTALL_LIB)
+-	install -m 0644 $(BUILD_DRIVERS)/$(DRIVER_NAME).a $(INSTALL_LIB)
+ 	install $(BUILD_DRIVERS)/$(DRIVER_NAME) $(INSTALL_BIN)
+ 	$(BUILD_BIN)/indigo_driver_metadata $(DRIVER_SO) >$(INSTALL_SHARE)/$(DRIVER_METADATA)
+ 
+-- 
+2.55.0
+
