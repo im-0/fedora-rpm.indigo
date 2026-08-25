@@ -549,6 +549,9 @@ install -m 0755 build/bin/indigo_scan_drivers %{buildroot}%{_bindir}
 %{_libdir}/libstarshootg.so
 %{_libdir}/libsvbonycam.so
 %{_libdir}/libtoupcam.so
+%ifarch aarch64
+%{_libdir}/libsbigudrv.so
+%endif
 
 %{_libdir}/libPlayerOneCamera.so.3
 %{_libdir}/libPlayerOnePW.so.1
