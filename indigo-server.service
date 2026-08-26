@@ -17,6 +17,7 @@ LimitNOFILE=1024000
 LogRateLimitIntervalSec=0
 
 ExecStart=/usr/bin/indigo_server --do-not-fork $SERVER_OPTS
+TimeoutStopSec=10s
 
 Restart=always
 RestartSec=1
