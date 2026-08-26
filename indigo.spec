@@ -7,7 +7,7 @@
 
 Name:       indigo
 Version:    3.0.4
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    INDIGO astronomy software platform
 
 License:    LicenseRef-INDIGO-Astronomy-open-source-license
@@ -35,6 +35,10 @@ Patch3001:     0001-Fix-indigo_ccd_rpi.patch
 Patch3002:     0002-Do-not-install-indigo_ccd_rpi.a.patch
 Patch3003:     0003-Put-metadata-of-indigo_ccd_rpi-into-indigo_linux_dri.patch
 Patch3004:     0004-Fix-indigo_ccd_rpi-runpath.patch
+
+Patch4001:     0001-Merge-libcamera-controls-instead-of-trying-to-replac.patch
+Patch4002:     0002-Initialize-ControlList-with-libcamera-controls-contr.patch
+Patch4003:     0003-Do-not-apply-controls-after-Camera-start.patch
 
 BuildRequires:  systemd-rpm-macros
 BuildRequires:  automake
@@ -159,6 +163,10 @@ Headers for INDIGO astronomy software platform.
 %patch -P 3002 -p 1
 %patch -P 3003 -p 1
 %patch -P 3004 -p 1
+
+%patch -P 4001 -p 1
+%patch -P 4002 -p 1
+%patch -P 4003 -p 1
 
 
 %build

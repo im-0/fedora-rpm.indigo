@@ -1,0 +1,32 @@
+From 1754afc6082e129f7219aaca5b57fd3859b2140f Mon Sep 17 00:00:00 2001
+From: Ivan Mironov <mironov.ivan@gmail.com>
+Date: Wed, 26 Aug 2026 13:59:27 +0200
+Subject: [PATCH 3/3] Do not apply controls after Camera::start()
+
+---
+ indigo_optional_drivers/ccd_rpi/indigo_ccd_rpi.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/indigo_optional_drivers/ccd_rpi/indigo_ccd_rpi.cpp b/indigo_optional_drivers/ccd_rpi/indigo_ccd_rpi.cpp
+index f5d0fc06db82..f57bca1ff31e 100644
+--- a/indigo_optional_drivers/ccd_rpi/indigo_ccd_rpi.cpp
++++ b/indigo_optional_drivers/ccd_rpi/indigo_ccd_rpi.cpp
+@@ -799,6 +799,7 @@ int RPiCamera::StartCapture() {
+ 		return ret;
+ 	}
+ 
++	m_controls.clear();
+ 	m_cameraStarted = true;
+ 	for (std::unique_ptr<Request> &request : m_requests) {
+ 		ret = QueueRequest(request.get());
+@@ -921,7 +922,6 @@ int RPiCamera::QueueRequest(Request *request) {
+ 	if (!m_cameraStarted) {
+ 		return -1;
+ 	}
+-	request->controls().merge(m_controls, ControlList::MergePolicy::OverwriteExisting);
+ 	return m_camera->queueRequest(request);
+ }
+ 
+-- 
+2.55.0
+

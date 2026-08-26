@@ -1,0 +1,46 @@
+From 1262d2394ed64f9c1b87e1bfda1182467fb3afe9 Mon Sep 17 00:00:00 2001
+From: Ivan Mironov <mironov.ivan@gmail.com>
+Date: Wed, 26 Aug 2026 13:30:26 +0200
+Subject: [PATCH 2/3] Initialize ControlList with libcamera::controls::controls
+
+This fixes following error:
+
+	FATAL Serializer control_serializer.cpp:626 A list of V4L2 controls requires a ControlInfoMap
+---
+ indigo_optional_drivers/ccd_rpi/indigo_ccd_rpi.cpp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/indigo_optional_drivers/ccd_rpi/indigo_ccd_rpi.cpp b/indigo_optional_drivers/ccd_rpi/indigo_ccd_rpi.cpp
+index 1bfcb6ab1b6e..f5d0fc06db82 100644
+--- a/indigo_optional_drivers/ccd_rpi/indigo_ccd_rpi.cpp
++++ b/indigo_optional_drivers/ccd_rpi/indigo_ccd_rpi.cpp
+@@ -418,7 +418,7 @@ struct RPiCamera {
+ 	bool m_afEnabled = false;
+ 	std::queue<Request *> m_requestQueue;
+ 	std::map<int, std::pair<void *, unsigned int>> m_mappedBuffers;
+-	ControlList m_controls;
++	ControlList m_controls{controls::controls};
+ 	std::mutex m_cameraMutex;
+ 	std::condition_variable m_cv;
+ 	bool m_exposureDone = false;
+@@ -1375,7 +1375,7 @@ static void ccd_start_exposure(indigo_device *device) {
+ 	int state = -1;
+ 
+ 	if (pRPiCamera->IsCameraAcquired()) {
+-		ControlList m_controls;
++		ControlList m_controls{controls::controls};
+ 		int64_t frame_time = CCD_EXPOSURE_ITEM->number.target * 1000000;
+ 		// Set frame rate
+ 		m_controls.set(controls::FrameDurationLimits, libcamera::Span<const int64_t, 2>({frame_time, frame_time}));
+@@ -1454,7 +1454,7 @@ static void ccd_handle_advanced_property(indigo_device *device) {
+ 	X_CCD_ADVANCED_PROPERTY->state = INDIGO_OK_STATE;
+ 	if (X_CCD_ADVANCED_PROPERTY->count != 1) {
+ 		RPiCamera *pRPicamera = PRIVATE_DATA->pRPiCamera;
+-		ControlList m_controls;
++		ControlList m_controls{controls::controls};
+ 		auto controlsInfo = pRPicamera->GetControls();
+ 
+ 		m_controls.set(controls::Contrast, X_CCD_CONTRAST_ITEM->number.value);
+-- 
+2.55.0
+
