@@ -6,8 +6,8 @@
 %global __requires_exclude ^lib(PlayerOneCamera|PlayerOnePW|qhyccd|)\\.so.*$
 
 Name:       indigo
-Version:    3.0.4
-Release:    4%{?dist}
+Version:    3.0.5
+Release:    1%{?dist}
 Summary:    INDIGO astronomy software platform
 
 License:    LicenseRef-INDIGO-Astronomy-open-source-license
@@ -31,9 +31,6 @@ Patch1006:     0006-Use-system-libusb-libhidapi-libjpeg-libtiff-and-libr.patch
 
 Patch2001:     0001-Remove-proprietary-libftd2xx.patch
 
-Patch3001:     0001-Fix-indigo_ccd_rpi.patch
-Patch3002:     0002-Do-not-install-indigo_ccd_rpi.a.patch
-Patch3003:     0003-Put-metadata-of-indigo_ccd_rpi-into-indigo_linux_dri.patch
 Patch3004:     0004-Fix-indigo_ccd_rpi-runpath.patch
 
 Patch4001:     0001-Merge-libcamera-controls-instead-of-trying-to-replac.patch
@@ -159,9 +156,6 @@ Headers for INDIGO astronomy software platform.
 %patch -P 2001 -p 1
 %endif
 
-%patch -P 3001 -p 1
-%patch -P 3002 -p 1
-%patch -P 3003 -p 1
 %patch -P 3004 -p 1
 
 %patch -P 4001 -p 1
