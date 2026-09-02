@@ -6,7 +6,7 @@
 %global __requires_exclude ^lib(PlayerOneCamera|PlayerOnePW|qhyccd|)\\.so.*$
 
 Name:       indigo
-Version:    3.0.5
+Version:    3.0.6
 Release:    1%{?dist}
 Summary:    INDIGO astronomy software platform
 
@@ -318,6 +318,7 @@ install -m 0755 build/bin/indigo_scan_drivers %{buildroot}%{_bindir}
 %{_bindir}/indigo_mount_asi
 %{_bindir}/indigo_mount_ioptron
 %{_bindir}/indigo_mount_lx200
+%{_bindir}/indigo_mount_mxhd
 %{_bindir}/indigo_mount_nexstar
 %{_bindir}/indigo_mount_nexstaraux
 %{_bindir}/indigo_mount_pmc8
@@ -441,6 +442,7 @@ install -m 0755 build/bin/indigo_scan_drivers %{buildroot}%{_bindir}
 %{_libdir}/indigo_mount_asi.so
 %{_libdir}/indigo_mount_ioptron.so
 %{_libdir}/indigo_mount_lx200.so
+%{_libdir}/indigo_mount_mxhd.so
 %{_libdir}/indigo_mount_nexstar.so
 %{_libdir}/indigo_mount_nexstaraux.so
 %{_libdir}/indigo_mount_pmc8.so
