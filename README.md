@@ -20,6 +20,7 @@ Non-free:
 
 ```bash
 # 1. Download `indigo-X.Y-Z.tar.gz` from https://github.com/indigo-astronomy/indigo/tags
+spectool -g --define "_non_free 1" indigo.spec
 
 # 2. Build *.src.rpm
 mock --buildsrpm --sources . --spec indigo.spec --define "_non_free 1"
@@ -36,6 +37,7 @@ Free:
 
 ```bash
 # 1. Download `indigo-X.Y-Z.tar.gz` from https://github.com/indigo-astronomy/indigo/tags
+spectool -g --define "_non_free 1" indigo.spec
 
 # 2. Remove non-free components
 ./deblob.sh indigo-X.Y-Z.tar.gz indigo-free-X.Y-Z.tar.xz
